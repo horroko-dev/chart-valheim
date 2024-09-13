@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - image: 'lloesche/valheim-server:latest'
+          name: 'valheim-server'
+          env:
+            - name: SERVER_NAME
+              value: {{ .Values.serverName }}
+            - name: WORLD_NAME
+              value: {{ .Values.worldName }}
+            - name: SERVER_PASS
+              value: {{ .Values.password }}
+          ports:
+            - containerPort: 2456
+              name: game
+          volumeMounts:
+            - mountPath: /config
+              name: valheim-data
+      volumes:
+        - name: valheim-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}
+

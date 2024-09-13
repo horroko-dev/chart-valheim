@@ -1,0 +1,4 @@
+worldName: "example-world-name"
+serverName: "example-server-name"
+password: "example-password"
+nodePort: 32456
