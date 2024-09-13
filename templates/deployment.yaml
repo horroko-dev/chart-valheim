@@ -28,11 +28,15 @@ spec:
               value: "false"
             - name: TZ
               value: Europe/Berlin
+            - name: ADMINLIST_IDS
+              value: "{{ .Values.adminListIds }}"
           ports:
             - containerPort: 2456
               name: game
           volumeMounts:
             - mountPath: /config
+              name: valheim-config
+            - mountPath: /opt/valheim
               name: valheim-data
           resources:
             requests:
@@ -50,7 +54,11 @@ spec:
             seccompProfile:
               type: RuntimeDefault
       volumes:
+        - name: valheim-config
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-config
         - name: valheim-data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}
+            claimName: {{ .Release.Name }}-data
+
 
