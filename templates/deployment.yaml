@@ -24,12 +24,23 @@ spec:
               value: {{ .Values.worldName }}
             - name: SERVER_PASS
               value: {{ .Values.password }}
+            - name: SERVER_PUBLIC
+              value: "false"
+            - name: TZ
+              value: Europe/Berlin
           ports:
             - containerPort: 2456
               name: game
           volumeMounts:
             - mountPath: /config
               name: valheim-data
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
       volumes:
         - name: valheim-data
           persistentVolumeClaim:
