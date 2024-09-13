@@ -3,3 +3,4 @@ serverName: "example-server-name"
 password: "example-password"
 nodePort: 32456
 adminListIds: ""
+permittedListIds: ""
